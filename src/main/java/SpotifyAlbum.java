@@ -26,7 +26,6 @@ public class SpotifyAlbum {
 
     public String getBearer() throws IOException, ParseException, SpotifyWebApiException {
         ClientCredentials clientCredentials = clientCredentialsRequest.execute();
-        System.out.println(clientCredentials.getAccessToken());
         return clientCredentials.getAccessToken();
     }
 
