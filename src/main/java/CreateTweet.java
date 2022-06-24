@@ -4,6 +4,7 @@ import io.github.redouane59.twitter.dto.tweet.Tweet;
 import io.github.redouane59.twitter.dto.tweet.TweetParameters;
 import io.github.redouane59.twitter.dto.tweet.UploadMediaResponse;
 import io.github.redouane59.twitter.signature.TwitterCredentials;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,20 +15,21 @@ import java.util.Collections;
 
 public class CreateTweet {
     final static TwitterClient getTwitterInstance = new TwitterClient(TwitterCredentials.builder()
-            .accessToken("703135577831448577-lC2M9ssusdFPKomXvyhzCmLoxlJMWaa")
-            .accessTokenSecret("gxkIkWx5NIY78GwD3irzFrKPkemjqo0H8goeZBnAfHLo6")
-            .apiKey("FP0dPssia6y9cr6q61YRvavof")
-            .apiSecretKey("LdVaVQdQZX1R7nvO1N4r3l0nLBs7uokuFIDsy2lGJpSFK8OCes")
+            .accessToken("703135577831448577-FoAP0CcP4yaxzDdDGuHZYy0e7IvUYNi")
+            .accessTokenSecret("gI3iEdR4OGDKjMGsECXUY5pRNeqsRabfntlcM7FNpWrCi")
+            .apiKey("HhcyGXH9PVpbM30Hg3cQHH18t")
+            .apiSecretKey("RurrzyKh2a4TnLw5McqT6fbN5HBkghAZxG0yG2FcWEtWFMShAx")
             .build());
 
-    public String postTweet(String imgUrl) {
+    public String postTweet(String imgUrl,  String author, String albumName,  String albumType,  String albumLink) {
         UploadMediaResponse media = getTwitterInstance.uploadMedia("obrazek", getImageFromNetByUrl(imgUrl), MediaCategory.TWEET_IMAGE);
         Tweet tweet = getTwitterInstance.postTweet(TweetParameters.builder().media(TweetParameters.Media.builder()
                         .mediaIds(Collections.singletonList(media.getMediaId())).build())
-                .text("jebac disa ze zdjeciem")
+                .text("New " + albumType + " - " + albumName + " by " + author + "\nSpotify Link - " + albumLink)
                 .build());
         return tweet.getText();
     }
+
 
     public static byte[] getImageFromNetByUrl(String strUrl) {
         try {

@@ -3,20 +3,28 @@ import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException, SpotifyWebApiException {
+    public static void main(String[] args) throws IOException, ParseException, SpotifyWebApiException, InterruptedException {
 
 
         SpotifyAlbum spotifyAlbum = new SpotifyAlbum();
+        System.out.println(spotifyAlbum.getReleaseDate());
         CreateTweet tweet = new CreateTweet();
-        System.out.println(spotifyAlbum.getArtist());
-        System.out.println(spotifyAlbum.getAlbumName());
-        System.out.println(spotifyAlbum.getAlbumType());
-        System.out.println(spotifyAlbum.getImgAddress());
-        System.out.println(spotifyAlbum.getSpotifyHref());
-        System.out.println(tweet.postTweet(spotifyAlbum.getImgAddress()));
+        while (true) {
+            if (spotifyAlbum.getAlbumName() == null) {
+                System.out.println("waiting for post");
+                TimeUnit.MINUTES.sleep(1);
+            }
+            else {
+                for (int i = 0, j = 0; i < spotifyAlbum.getAlbumName().size(); i++, j += 3) {
+                    System.out.println(tweet.postTweet(spotifyAlbum.getImgAddress().get(j), spotifyAlbum.getArtist().get(i), spotifyAlbum.getAlbumName().get(i), spotifyAlbum.getAlbumType().get(i), spotifyAlbum.getSpotifyHref().get(i)));
 
+                }
+            }
+        }
 
 
     }
